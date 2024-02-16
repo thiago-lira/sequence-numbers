@@ -34,20 +34,38 @@ export default {
   setup() {
     const numbers = ref([])
     const isPlaying = ref(false)
+    const showNumber = ref(false)
+
+    const timeToHide = 2000
     const keyLabels = Array.from(Array(10).keys())
 
     const lastNumber = computed(() => {
-      return numbers.value.at(-1)
+      return showNumber.value ? numbers.value.at(-1) : '?'
     })
 
-    const addNumberRandom = () =>{
+    const revealAndHide = function () {
+      showNumber.value = true
+
+      setTimeout(function () {
+        showNumber.value = false
+      }, timeToHide)
+    }
+
+    const addNewNumber = function () {
       const newNumber = Math.round(Math.random() * 9)
 
       numbers.value.push(newNumber)
+
+      revealAndHide()
     }
 
     const start = function () {
-      addNumberRandom()
+      isPlaying.value = true
+      newRound()
+    }
+
+    const newRound = function () {
+      addNewNumber()
     }
 
     return {
