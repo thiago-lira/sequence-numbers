@@ -1,15 +1,18 @@
 <template>
   <div class="virtual-keyboard">
-    <ButtonUI
-      v-for="label in keyLabels"
-      :key="label"
-      @click="$emit('guess', label)"
-      :label="label"
-    />
+    <div class="numbers-grid">
+      <ButtonUI
+        v-for="label in keyLabels"
+        :key="label"
+        @click="$emit('guess', label)"
+        :label="label"
+      />
 
-    <ButtonUI @click="$emit('check')" label="Verificar" />
+      <ButtonUI @click="$emit('check')" label="Verificar" />
 
-    <ButtonUI @click="$emit('delete')" label="Apagar Último" />
+      <ButtonUI @click="$emit('delete')" label="Apagar Último" />
+    </div>
+
   </div>
 </template>
 
@@ -28,3 +31,11 @@ export default {
 }
 </script>
 
+<style lang="scss" scoped>
+.numbers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  max-width: 650px;
+  margin: auto;
+}
+</style>
