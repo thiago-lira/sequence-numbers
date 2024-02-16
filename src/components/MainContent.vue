@@ -1,7 +1,6 @@
 <template>
   <div class="column-align">
     <div class="output-display">
-      {{ numbers }}
       <h1>
         {{ lastNumber }}
       </h1>
@@ -17,9 +16,14 @@
         <button
           v-for="label in keyLabels"
           :key="label"
+          @click="addGuess(label)"
           class="key"
         >
           {{ label }}
+        </button>
+
+        <button @click="check">
+          Verificar
         </button>
       </div>
     </div>
@@ -36,6 +40,7 @@ export default {
     const isPlaying = ref(false)
     const showNumber = ref(false)
 
+    let guess = []
     const timeToHide = 2000
     const keyLabels = Array.from(Array(10).keys())
 
@@ -68,12 +73,40 @@ export default {
       addNewNumber()
     }
 
+    const addGuess = function (number) {
+      guess.push(number)
+    }
+
+    const resetGuess = function () {
+      guess = []
+    }
+
+    const gameOver = function () {
+      isPlaying.value = false
+    }
+
+    const check = function () {
+      const guessString = guess.join(',')
+      const numbersString = numbers.value.join(',')
+
+      resetGuess()
+
+      if (guessString !== numbersString) {
+        gameOver()
+        return
+      }
+
+      addNewNumber()
+    }
+
     return {
       start,
       isPlaying,
       lastNumber,
       numbers,
       keyLabels,
+      addGuess,
+      check,
     }
   }
 }
@@ -96,14 +129,19 @@ export default {
 
 .virtual-keyboard {
   button {
-    background: #300;
-    border: 1px solid #900;
+    background: #f60;
+    border: 1px solid #fc0;
     border-radius: 6px;
-    color: #f00;
+    color: #111;
     cursor: pointer;
     font-size: 26px;
     margin: 4px;
     padding: 10px 20px;
+
+    &:active {
+      background-color: orangered;
+      color: #fff;
+    }
   }
 }
 </style>
