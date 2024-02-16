@@ -1,6 +1,6 @@
 <template>
   <div class="output-display">
-    <GuessResults
+    <GuessingResults
       v-if="hasFinished"
       :numbers="props.numbers"
       :guess="props.guess"
@@ -16,12 +16,12 @@
 <script>
 import {computed} from 'vue';
 import GuessingDisplay from './GuessingDisplay.vue';
-import GuessResults from './GuessResults.vue';
+import GuessingResults from './GuessingResults.vue';
 
 export default {
   name: "OutputGuess",
   components: {
-    GuessResults,
+    GuessingResults,
     GuessingDisplay
 },
   props: {

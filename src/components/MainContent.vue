@@ -1,13 +1,13 @@
 <template>
   <div class="column-align">
-    <OutputGuess
+    <GuessingOutput
       :is-game-over="isGameOver"
       :label="lastNumber"
       :numbers="numbers"
       :guess="guess"
     />
 
-    <InputGuess
+    <GuessingInput
       :is-playing="isPlaying"
       @start="start"
       @guess="addGuess"
@@ -21,14 +21,14 @@
 <script>
 import {computed, ref} from 'vue';
 
-import InputGuess from './InputGuess.vue';
-import OutputGuess from './OutputGuess.vue';
+import GuessingInput from './GuessingInput.vue';
+import GuessingOutput from './GuessingOutput.vue';
 
 export default {
   name: 'MainContent',
   components: {
-    InputGuess,
-    OutputGuess,
+    GuessingInput,
+    GuessingOutput,
   },
   setup() {
     const numbers = ref([])
