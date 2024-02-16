@@ -25,11 +25,11 @@ export default {
   },
   setup(props) {
     const hiddenNumbers = computed(() => {
-        const { guess } = props;
-        if (guess.length === 0) {
-            return "-";
-        }
-        return guess.join("-").replaceAll(/[0-9]/g, "x");
+      const { guess } = props;
+      if (guess.length === 0) {
+          return "-";
+      }
+      return guess.join("-").replaceAll(/[0-9]/g, "x");
     });
 
     return {
