@@ -23,6 +23,7 @@ import {computed, ref} from 'vue';
 
 import GuessingInput from '../components/GuessingInput.vue';
 import GuessingOutput from '../components/GuessingOutput.vue';
+import stats from '../utils/stats';
 
 export default {
   name: 'MainContent',
@@ -84,6 +85,8 @@ export default {
     }
 
     const gameOver = function () {
+      stats.save(numbers.value.length - 1)
+
       isPlaying.value = false
     }
 
