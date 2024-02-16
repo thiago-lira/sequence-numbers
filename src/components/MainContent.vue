@@ -1,9 +1,25 @@
 <template>
   <div class="column-align">
     <div class="output-display">
-      <h1>
-        {{ lastNumber }}
-      </h1>
+      <div v-if="isGameOver" class="game-over">
+        <p>
+          <span class="icon">
+            ✓
+          </span>
+          : {{ correctSequence }}
+        </p>
+        <p>
+          <span class="icon">
+           x 
+          </span>
+          : {{ wrongSequence }}
+        </p>
+      </div>
+      <div v-else>
+        <h1>
+          {{ lastNumber }}
+        </h1>
+      </div>
     </div>
 
     <div class="virtual-keyboard">
@@ -37,16 +53,22 @@ export default {
   name: 'MainContent',
   setup() {
     const numbers = ref([])
+    const guess = ref([])
     const isPlaying = ref(false)
     const showNumber = ref(false)
 
-    let guess = []
-    const timeToHide = 2000
+    const timeToHide = 1000
     const keyLabels = Array.from(Array(10).keys())
 
     const lastNumber = computed(() => {
       return showNumber.value ? numbers.value.at(-1) : '?'
     })
+
+    const correctSequence = computed(() => numbers.value.join('-'))
+
+    const wrongSequence = computed(() => guess.value.join('-'))
+
+    const isGameOver = computed(() => !isPlaying.value && numbers.value.length > 0)
 
     const revealAndHide = function () {
       showNumber.value = true
@@ -61,11 +83,21 @@ export default {
 
       numbers.value.push(newNumber)
 
+      guess.value = []
+
       revealAndHide()
     }
 
-    const start = function () {
+    const setGame = function () {
+      numbers.value = []
+      guess.value = []
+
       isPlaying.value = true
+    }
+
+    const start = function () {
+      setGame()
+
       newRound()
     }
 
@@ -74,11 +106,7 @@ export default {
     }
 
     const addGuess = function (number) {
-      guess.push(number)
-    }
-
-    const resetGuess = function () {
-      guess = []
+      guess.value.push(number)
     }
 
     const gameOver = function () {
@@ -86,10 +114,8 @@ export default {
     }
 
     const check = function () {
-      const guessString = guess.join(',')
+      const guessString = guess.value.join(',')
       const numbersString = numbers.value.join(',')
-
-      resetGuess()
 
       if (guessString !== numbersString) {
         gameOver()
@@ -101,12 +127,15 @@ export default {
 
     return {
       start,
+      isGameOver,
       isPlaying,
       lastNumber,
       numbers,
       keyLabels,
       addGuess,
       check,
+      correctSequence,
+      wrongSequence,
     }
   }
 }
@@ -125,6 +154,17 @@ export default {
 
 .output-display {
   padding-top: 100px;
+}
+
+.game-over {
+  font-size: 24px;
+  margin-left: 50px;
+  text-align: left;
+
+  span.icon {
+    display: inline-block;
+    width: 24px;
+  }
 }
 
 .virtual-keyboard {
