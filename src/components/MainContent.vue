@@ -8,7 +8,12 @@
     </div>
 
     <div class="virtual-keyboard">
-      <div class="keys">
+      <div v-if="!isPlaying" class="start-area">
+        <button @click="start">
+          Começar
+        </button>
+      </div>
+      <div v-else class="keys">
         <button
           v-for="label in keyLabels"
           :key="label"
@@ -22,12 +27,13 @@
 </template>
 
 <script>
-import {computed, ref, onMounted} from 'vue';
+import {computed, ref} from 'vue';
 
 export default {
   name: 'MainContent',
   setup() {
     const numbers = ref([])
+    const isPlaying = ref(false)
     const keyLabels = Array.from(Array(10).keys())
 
     const lastNumber = computed(() => {
@@ -40,11 +46,13 @@ export default {
       numbers.value.push(newNumber)
     }
 
-    onMounted(() => {
+    const start = function () {
       addNumberRandom()
-    })
+    }
 
     return {
+      start,
+      isPlaying,
       lastNumber,
       numbers,
       keyLabels,
@@ -74,6 +82,7 @@ export default {
     border: 1px solid #900;
     border-radius: 6px;
     color: #f00;
+    cursor: pointer;
     font-size: 26px;
     margin: 4px;
     padding: 10px 20px;
