@@ -25,7 +25,6 @@ export default {
   },
   setup(props) {
     const hiddenNumbers = computed(() => {
-        console.log(props)
         const { guess } = props;
         if (guess.length === 0) {
             return "-";
