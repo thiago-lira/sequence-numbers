@@ -19,6 +19,10 @@
         <h1>
           {{ lastNumber }}
         </h1>
+
+        <p class="gray-text">
+          Sequência: {{ hiddenNumbers }}
+        </p>
       </div>
     </div>
 
@@ -62,6 +66,16 @@ export default {
 
     const lastNumber = computed(() => {
       return showNumber.value ? numbers.value.at(-1) : '?'
+    })
+
+    const hiddenNumbers = computed(() => {
+      const { value } = guess
+
+      if (value.length === 0) {
+        return '-'
+      }
+
+      return value.join('-').replaceAll(/[0-9]/g, 'x')
     })
 
     const correctSequence = computed(() => numbers.value.join('-'))
@@ -126,6 +140,7 @@ export default {
     }
 
     return {
+      guess,
       start,
       isGameOver,
       isPlaying,
@@ -134,6 +149,7 @@ export default {
       keyLabels,
       addGuess,
       check,
+      hiddenNumbers,
       correctSequence,
       wrongSequence,
     }
@@ -154,6 +170,10 @@ export default {
 
 .output-display {
   padding-top: 100px;
+
+  .gray-text {
+    color: gray;
+  }
 }
 
 .game-over {
