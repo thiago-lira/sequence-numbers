@@ -21,8 +21,8 @@
 <script>
 import {computed, ref} from 'vue';
 
-import GuessingInput from './GuessingInput.vue';
-import GuessingOutput from './GuessingOutput.vue';
+import GuessingInput from '../components/GuessingInput.vue';
+import GuessingOutput from '../components/GuessingOutput.vue';
 
 export default {
   name: 'MainContent',
