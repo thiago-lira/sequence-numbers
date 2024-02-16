@@ -42,7 +42,6 @@ export default {
       return showNumber.value ? numbers.value.at(-1) : '?'
     })
 
-
     const isGameOver = computed(() => !isPlaying.value && numbers.value.length > 0)
 
     const revealAndHide = function () {
