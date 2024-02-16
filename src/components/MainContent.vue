@@ -45,6 +45,10 @@
         <button @click="check">
           Verificar
         </button>
+
+        <button @click="deleteLastGuess">
+          Apagar último
+        </button>
       </div>
     </div>
   </div>
@@ -139,6 +143,10 @@ export default {
       addNewNumber()
     }
 
+    const deleteLastGuess = function () {
+      guess.value.pop()
+    }
+
     return {
       guess,
       start,
@@ -152,6 +160,7 @@ export default {
       hiddenNumbers,
       correctSequence,
       wrongSequence,
+      deleteLastGuess,
     }
   }
 }
