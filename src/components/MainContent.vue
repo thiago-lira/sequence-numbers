@@ -1,30 +1,11 @@
 <template>
   <div class="column-align">
-    <div class="output-display">
-      <div v-if="isGameOver" class="game-over">
-        <p>
-          <span class="icon">
-            ✓
-          </span>
-          : {{ correctSequence }}
-        </p>
-        <p>
-          <span class="icon">
-           x 
-          </span>
-          : {{ wrongSequence }}
-        </p>
-      </div>
-      <div v-else>
-        <h1>
-          {{ lastNumber }}
-        </h1>
-
-        <p class="gray-text">
-          Sequência: {{ hiddenNumbers }}
-        </p>
-      </div>
-    </div>
+    <OutputGuess
+      :is-game-over="isGameOver"
+      :label="lastNumber"
+      :numbers="numbers"
+      :guess="guess"
+    />
 
     <InputGuess
       :is-playing="isPlaying"
@@ -39,12 +20,15 @@
 
 <script>
 import {computed, ref} from 'vue';
+
 import InputGuess from './InputGuess.vue';
+import OutputGuess from './OutputGuess.vue';
 
 export default {
   name: 'MainContent',
   components: {
     InputGuess,
+    OutputGuess,
   },
   setup() {
     const numbers = ref([])
@@ -58,19 +42,6 @@ export default {
       return showNumber.value ? numbers.value.at(-1) : '?'
     })
 
-    const hiddenNumbers = computed(() => {
-      const { value } = guess
-
-      if (value.length === 0) {
-        return '-'
-      }
-
-      return value.join('-').replaceAll(/[0-9]/g, 'x')
-    })
-
-    const correctSequence = computed(() => numbers.value.join('-'))
-
-    const wrongSequence = computed(() => guess.value.join('-'))
 
     const isGameOver = computed(() => !isPlaying.value && numbers.value.length > 0)
 
@@ -142,9 +113,6 @@ export default {
       numbers,
       addGuess,
       check,
-      hiddenNumbers,
-      correctSequence,
-      wrongSequence,
       deleteLastGuess,
     }
   }
@@ -161,24 +129,4 @@ export default {
     flex-grow: 1;
   }
 }
-
-.output-display {
-  padding-top: 100px;
-
-  .gray-text {
-    color: gray;
-  }
-}
-
-.game-over {
-  font-size: 24px;
-  margin-left: 50px;
-  text-align: left;
-
-  span.icon {
-    display: inline-block;
-    width: 24px;
-  }
-}
-
 </style>
