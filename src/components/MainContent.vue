@@ -1,7 +1,10 @@
 <template>
   <div class="column-align">
     <div class="output-display">
-      <h1>Oi, Mundo!</h1>
+      {{ numbers }}
+      <h1>
+        {{ lastNumber }}
+      </h1>
     </div>
 
     <div class="virtual-keyboard">
@@ -19,13 +22,32 @@
 </template>
 
 <script>
+import {computed, ref, onMounted} from 'vue';
+
 export default {
   name: 'MainContent',
   setup() {
+    const numbers = ref([])
     const keyLabels = Array.from(Array(10).keys())
 
+    const lastNumber = computed(() => {
+      return numbers.value.at(-1)
+    })
+
+    const addNumberRandom = () =>{
+      const newNumber = Math.round(Math.random() * 9)
+
+      numbers.value.push(newNumber)
+    }
+
+    onMounted(() => {
+      addNumberRandom()
+    })
+
     return {
-      keyLabels
+      lastNumber,
+      numbers,
+      keyLabels,
     }
   }
 }
