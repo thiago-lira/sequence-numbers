@@ -5,61 +5,49 @@
       :numbers="props.numbers"
       :guess="props.guess"
     />
-
-    <div v-else>
-      <h1>
-        {{ label }}
-      </h1>
-
-      <p class="gray-text">
-        Sequência: {{ hiddenNumbers }}
-      </p>
-    </div>
+    <GuessingDisplay
+      v-else
+      :guess="props.guess"
+      :label="label"
+    />
   </div>
 </template>
 
 <script>
 import {computed} from 'vue';
+import GuessingDisplay from './GuessingDisplay.vue';
 import GuessResults from './GuessResults.vue';
 
 export default {
-    name: "OutputGuess",
-    components: {
-      GuessResults
+  name: "OutputGuess",
+  components: {
+    GuessResults,
+    GuessingDisplay
+},
+  props: {
+    label: {
+      type: [String, Number],
+      required: true,
     },
-    props: {
-        label: {
-            type: [String, Number],
-            required: true,
-        },
-        isGameOver: {
-            type: Boolean,
-            required: true,
-        },
-        numbers: {
-            type: Array,
-            required: true,
-        },
-        guess: {
-            type: Array,
-            required: true,
-        },
+    isGameOver: {
+      type: Boolean,
+      required: true,
     },
-    setup(props) {
-        const hasFinished = computed(() => props.isGameOver);
-        const hiddenNumbers = computed(() => {
-            const { guess } = props;
-            if (guess.length === 0) {
-                return "-";
-            }
-            return guess.join("-").replaceAll(/[0-9]/g, "x");
-        });
-        return {
-            props,
-            hasFinished,
-            hiddenNumbers,
-        };
+    numbers: {
+      type: Array,
+      required: true,
     },
+    guess: {
+      type: Array,
+      required: true,
+    },
+  },
+  setup(props) {
+    return {
+      props,
+      hasFinished: computed(() => props.isGameOver)
+    };
+  },
 }
 </script>
 
