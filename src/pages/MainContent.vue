@@ -122,7 +122,7 @@ export default {
 .column-align {
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: calc(100vh - 48px);
 
   > * {
     flex-grow: 1;

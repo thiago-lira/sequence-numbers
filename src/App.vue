@@ -1,10 +1,16 @@
 <template>
+  <NavigationBar />
   <router-view />
 </template>
 
 <script>
+import NavigationBar from './components/NavigationBar.vue'
+
 export default {
   name: 'App',
+  components: {
+    NavigationBar,
+  }
 }
 </script>
 
@@ -12,6 +18,7 @@ export default {
 * {
   margin: 0;
   padding: 0;
+  text-decoration: none;
 }
 body {
   background-color: #333;
@@ -21,4 +28,5 @@ body {
   text-align: center;
   color: #fff;
 }
+
 </style>
