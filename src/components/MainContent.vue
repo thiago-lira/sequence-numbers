@@ -26,39 +26,26 @@
       </div>
     </div>
 
-    <div class="virtual-keyboard">
-      <div v-if="!isPlaying" class="start-area">
-        <button @click="start">
-          Começar
-        </button>
-      </div>
-      <div v-else class="keys">
-        <button
-          v-for="label in keyLabels"
-          :key="label"
-          @click="addGuess(label)"
-          class="key"
-        >
-          {{ label }}
-        </button>
+    <InputGuess
+      :is-playing="isPlaying"
+      @start="start"
+      @guess="addGuess"
+      @check="check"
+      @delete="deleteLastGuess"
+    />
 
-        <button @click="check">
-          Verificar
-        </button>
-
-        <button @click="deleteLastGuess">
-          Apagar último
-        </button>
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
 import {computed, ref} from 'vue';
+import InputGuess from './InputGuess.vue';
 
 export default {
   name: 'MainContent',
+  components: {
+    InputGuess,
+  },
   setup() {
     const numbers = ref([])
     const guess = ref([])
@@ -66,7 +53,6 @@ export default {
     const showNumber = ref(false)
 
     const timeToHide = 1000
-    const keyLabels = Array.from(Array(10).keys())
 
     const lastNumber = computed(() => {
       return showNumber.value ? numbers.value.at(-1) : '?'
@@ -154,7 +140,6 @@ export default {
       isPlaying,
       lastNumber,
       numbers,
-      keyLabels,
       addGuess,
       check,
       hiddenNumbers,
@@ -196,21 +181,4 @@ export default {
   }
 }
 
-.virtual-keyboard {
-  button {
-    background: #f60;
-    border: 1px solid #fc0;
-    border-radius: 6px;
-    color: #111;
-    cursor: pointer;
-    font-size: 26px;
-    margin: 4px;
-    padding: 10px 20px;
-
-    &:active {
-      background-color: orangered;
-      color: #fff;
-    }
-  }
-}
 </style>
